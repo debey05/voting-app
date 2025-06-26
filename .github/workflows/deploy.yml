@@ -15,15 +15,15 @@ jobs:
 
       - name: Install dependencies and run Checkov scan
         run: |
-          echo "📦 Installing Python and Checkov..."
+          echo "Installing Python and Checkov..."
           sudo apt-get update
           sudo apt-get install -y python3 python3-pip
           pip install checkov --break-system-packages
           export PATH=$PATH:$HOME/.local/bin
-          echo "🔍 Running Checkov scan..."
-          checkov -d . --quiet --compact --soft-fail || echo "⚠️ Checkov found issues but continuing..."
+          echo "Running Checkov scan..."
+          checkov -d . --compact --soft-fail || echo "Checkov found issues but continuing..."
 
       - name: Deploy with Docker Compose
         run: |
-          echo "🚀 Starting Docker Compose deployment"
+          echo "Starting Docker Compose deployment"
           docker compose up -d
