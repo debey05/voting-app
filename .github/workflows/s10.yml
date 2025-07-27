@@ -40,9 +40,9 @@ jobs:
         run: |
           docker-compose build
 
-          docker tag votingapp_vote ${{ secrets.DOCKER_USERNAME }}/votingapp_vote:latest
-          docker tag votingapp_result ${{ secrets.DOCKER_USERNAME }}/votingapp_result:latest
-          docker tag votingapp_worker ${{ secrets.DOCKER_USERNAME }}/votingapp_worker:latest
+          docker tag dockersamples/examplevotingapp_vote ${{ secrets.DOCKER_USERNAME }}/votingapp_vote:latest
+          docker tag dockersamples/examplevotingapp_result ${{ secrets.DOCKER_USERNAME }}/votingapp_result:latest
+          docker tag dockersamples/examplevotingapp_worker ${{ secrets.DOCKER_USERNAME }}/votingapp_worker:latest
 
       - name: Push images to Docker Hub
         run: |
