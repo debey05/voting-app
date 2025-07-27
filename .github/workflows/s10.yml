@@ -6,7 +6,7 @@ on:
 jobs:
   deploy:
     name: Deploy on Self-Hosted Runner
-    runs-on: [carles]
+    runs-on: votingapprunner
 
     steps:
       - name: Checkout code
