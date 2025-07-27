@@ -6,7 +6,7 @@ on:
 jobs:
   deploy:
     name: Deploy on Self-Hosted Runner
-    runs-on: [self-hosted, s11]
+    runs-on: [carles]
 
     steps:
       - name: Checkout code
