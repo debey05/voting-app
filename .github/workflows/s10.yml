@@ -1,4 +1,4 @@
-name: Deploy Compose App
+name: Deploy Compose s10
 
 on:
   push:
