@@ -82,5 +82,4 @@ jobs:
       - name: Update kubeconfig for EKS
         run: aws eks update-kubeconfig --name demo-eks --region us-east-1
 
-      - name: Delete EKS cluster (for cleanup)
-        run: eksctl delete cluster --name demo-eks --region us-east-1
+      
