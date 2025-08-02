@@ -37,15 +37,21 @@ jobs:
           docker-compose --version
           sudo chmod 666 /var/run/docker.sock
 
-      - name: Install kubectl and AWS CLI
+      - name: Install kubectl, eksctl, and AWS CLI
         run: |
+          # Install kubectl
           sudo curl --silent --location -o /usr/local/bin/kubectl \
             https://s3.us-west-2.amazonaws.com/amazon-eks/1.22.6/2022-03-09/bin/linux/amd64/kubectl
           sudo chmod +x /usr/local/bin/kubectl
 
+          # Install AWS CLI
           curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
           sudo unzip -o awscliv2.zip
           sudo ./aws/install --update
+
+          # Install eksctl
+          curl --silent --location "https://github.com/weaveworks/eksctl/releases/latest/download/eksctl_$(uname -s)_amd64.tar.gz" | tar xz -C /tmp
+          sudo mv /tmp/eksctl /usr/local/bin
 
       - name: Log in to Docker Hub
         run: echo "${{ secrets.DOCKER_TOKEN }}" | docker login -u "${{ secrets.DOCKER_USERNAME }}" --password-stdin
