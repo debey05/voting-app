@@ -9,6 +9,9 @@ jobs:
     runs-on: [vottingapprunner]
 
     steps:
+      - name: Fix permissions before checkout
+        run: sudo chown -R $USER:$USER ${{ github.workspace }}
+
       - name: Checkout code
         uses: actions/checkout@v3
 
@@ -80,4 +83,4 @@ jobs:
         run: aws eks update-kubeconfig --name demo-eks --region us-east-1
 
       - name: Delete EKS cluster (for cleanup)
-        run: eksctl delete cluster --name demo-eks --region us-e
+        run: eksctl delete cluster --name demo-eks --region us-east-1
