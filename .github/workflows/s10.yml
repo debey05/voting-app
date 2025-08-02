@@ -65,4 +65,19 @@ jobs:
         run: |
           docker-compose down || true
           docker-compose up -d
-          kubectl get pod
+
+      - name: Create EKS cluster
+        run: |
+          eksctl create cluster \
+            --name demo-eks \
+            --region us-east-1 \
+            --nodegroup-name my-nodes \
+            --node-type t3.small \
+            --managed \
+            --nodes 2
+
+      - name: Update kubeconfig for EKS
+        run: aws eks update-kubeconfig --name demo-eks --region us-east-1
+
+      - name: Delete EKS cluster (for cleanup)
+        run: eksctl delete cluster --name demo-eks --region us-e
