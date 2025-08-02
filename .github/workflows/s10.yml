@@ -85,7 +85,7 @@ jobs:
       - name: Create EKS cluster
         run: |
           eksctl create cluster \
-            --name demo-eks \
+            --name demo-eks-1 \
             --region us-east-1 \
             --nodegroup-name my-nodes \
             --node-type t3.small \
