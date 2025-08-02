@@ -12,7 +12,7 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      - name: Set up environment
+      - name: Set up environments
         run: |
           echo "Updating system and installing dependencies..."
           sudo apt-get update
@@ -26,6 +26,7 @@ jobs:
           sudo systemctl start docker
           sudo systemctl enable docker
           sudo usermod -aG docker $USER
+          
 
       - name: Verify Docker installation
         run: |
