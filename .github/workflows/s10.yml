@@ -44,8 +44,8 @@ jobs:
           sudo chmod +x /usr/local/bin/kubectl
 
           curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
-          sudo unzip awscliv2.zip
-          sudo ./aws/install
+          sudo unzip -o awscliv2.zip
+          sudo ./aws/install --update
 
       - name: Log in to Docker Hub
         run: echo "${{ secrets.DOCKER_TOKEN }}" | docker login -u "${{ secrets.DOCKER_USERNAME }}" --password-stdin
@@ -81,5 +81,3 @@ jobs:
 
       - name: Update kubeconfig for EKS
         run: aws eks update-kubeconfig --name demo-eks --region us-east-1
-
-      
