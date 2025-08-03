@@ -87,7 +87,7 @@ jobs:
           export AWS_MAX_ATTEMPTS=100
           export AWS_POLL_DELAY_SECONDS=10
           eksctl create cluster \
-            --name demo-eks-1 \
+            --name demo-eks-vottingapp \
             --region us-east-1 \
             --nodegroup-name my-nodes \
             --node-type t3.small \
@@ -98,4 +98,4 @@ jobs:
         run: |
           export AWS_MAX_ATTEMPTS=100
           export AWS_POLL_DELAY_SECONDS=10
-          aws eks update-kubeconfig --name demo-eks-1 --region us-east-1
+          aws eks update-kubeconfig --name demo-eks-vottingapp --region us-east-1
