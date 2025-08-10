@@ -82,22 +82,28 @@ jobs:
           docker-compose down || true
           docker-compose up -d
 
-      - name: Create EKS cluster
+      - name: Create EKS cluster if not exists
         run: |
           export AWS_MAX_ATTEMPTS=100
           export AWS_POLL_DELAY_SECONDS=10
-          eksctl create cluster \
-            --name demo-eks \
-            --region us-east-1 \
-            --nodegroup-name my-nodes \
-            --node-type t3.small \
-            --managed \
-            --nodes 2
+          
+          if aws eks describe-cluster --name demo-eks --region us-east-1 >/dev/null 2>&1; then
+            echo "✅ Cluster 'demo-eks' already exists. Skipping creation."
+          else
+            echo "🚀 Creating cluster 'demo-eks'..."
+            eksctl create cluster \
+              --name demo-eks \
+              --region us-east-1 \
+              --nodegroup-name my-nodes \
+              --node-type t3.small \
+              --managed \
+              --nodes 2
+          fi
 
       - name: Update kubeconfig for EKS
         run: |
           export AWS_MAX_ATTEMPTS=100
           export AWS_POLL_DELAY_SECONDS=15
           aws eks update-kubeconfig --name demo-eks --region us-east-1
-          kubectl get pod
+          kubectl get pod --all-namespaces
           kubectl get namespace
