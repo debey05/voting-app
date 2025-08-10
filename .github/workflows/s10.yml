@@ -99,3 +99,5 @@ jobs:
           export AWS_MAX_ATTEMPTS=100
           export AWS_POLL_DELAY_SECONDS=15
           aws eks update-kubeconfig --name demo-eks --region us-east-1
+          kubectl get pod
+          kubectl get namespace
