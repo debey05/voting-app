@@ -96,7 +96,7 @@ spec:
     spec:
       containers:
         - name: vote
-          image: dockersamples/examplevotingapp_vote
+          image: deborahdel/votingapp_vote
           ports:
             - containerPort: 80
 ---
@@ -129,7 +129,7 @@ spec:
     spec:
       containers:
         - name: result
-          image: dockersamples/examplevotingapp_result
+          image: deborahdel/votingapp_result
           ports:
             - containerPort: 80
 ---
@@ -162,4 +162,4 @@ spec:
     spec:
       containers:
         - name: worker
-          image: dockersamples/examplevotingapp_worker
+          image: deborahdel/votingapp_worker
