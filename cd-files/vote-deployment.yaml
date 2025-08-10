@@ -105,12 +105,13 @@ kind: Service
 metadata:
   name: vote
 spec:
-  type: NodePort
+  type: LoadBalancer
   selector:
     app: vote
   ports:
     - port: 8080
       targetPort: 80
+      
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -137,12 +138,13 @@ kind: Service
 metadata:
   name: result
 spec:
-  type: NodePort
+  type:  LoadBalancer
   selector:
     app: result
   ports:
     - port: 8081
       targetPort: 80
+     
 ---
 apiVersion: apps/v1
 kind: Deployment
