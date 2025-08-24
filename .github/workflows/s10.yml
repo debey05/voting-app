@@ -44,6 +44,17 @@ jobs:
           docker-compose --version
           sudo chmod 666 /var/run/docker.sock
 
+      - name: Clean up disk space
+        run: |
+          echo "Disk space before cleanup:"
+          df -h
+          sudo rm -rf /usr/local/lib/android || true
+          sudo rm -rf "$AGENT_TOOLSDIRECTORY" || true
+          sudo apt-get clean
+          sudo rm -rf /var/lib/apt/lists/*
+          echo "Disk space after cleanup:"
+          df -h
+
       - name: Install kubectl, eksctl, and AWS CLI
         run: |
           # Install kubectl
