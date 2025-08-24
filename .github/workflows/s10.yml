@@ -117,3 +117,18 @@ jobs:
           kubectl apply -f cd-files/vote-deployment.yaml --namespace s10deborah
           kubectl get all --namespace s10deborah
           kubectl get nodes -o wide
+
+      - name: Cleanup environment (keep running containers)
+        if: always()
+        run: |
+          echo "🧹 Cleaning up unused Docker resources and temporary files (containers stay running)..."
+
+          # Remove dangling images, networks, and volumes but keep running containers
+          docker system prune -af --volumes
+
+          # Clean up apt cache
+          sudo apt-get clean
+          sudo rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+
+          # Clean workspace (leave only repo metadata)
+          find ${{ github.workspace }} -mindepth 1 -maxdepth 1 ! -name '.git' -exec sudo rm -rf {} +
