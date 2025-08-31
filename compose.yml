@@ -22,7 +22,7 @@ services:
       - backend
 
   vote:
-    image: deborahdel/votingapp_vote   # ✅ fixed (space after colon)
+    image: deborahdel/votingapp_vote
     ports:
       - "8080:80"
     networks:
