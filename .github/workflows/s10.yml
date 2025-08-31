@@ -71,22 +71,7 @@ jobs:
           curl --silent --location "https://github.com/weaveworks/eksctl/releases/latest/download/eksctl_$(uname -s)_amd64.tar.gz" | tar xz -C /tmp
           sudo mv /tmp/eksctl /usr/local/bin
 
-      - name: Log in to Docker Hub
-        run: echo "${{ secrets.DOCKER_TOKEN }}" | docker login -u "${{ secrets.DOCKER_USERNAME }}" --password-stdin
-
-      - name: Build and tag images
-        run: |
-          docker-compose build
-
-          docker tag dockersamples/examplevotingapp_vote ${{ secrets.DOCKER_USERNAME }}/votingapp_vote:latest
-          docker tag dockersamples/examplevotingapp_result ${{ secrets.DOCKER_USERNAME }}/votingapp_result:latest
-          docker tag dockersamples/examplevotingapp_worker ${{ secrets.DOCKER_USERNAME }}/votingapp_worker:latest
-
-      - name: Push images to Docker Hub
-        run: |
-          docker push ${{ secrets.DOCKER_USERNAME }}/votingapp_vote:latest
-          docker push ${{ secrets.DOCKER_USERNAME }}/votingapp_result:latest
-          docker push ${{ secrets.DOCKER_USERNAME }}/votingapp_worker:latest
+    
 
       - name: Deploy with Docker Compose
         run: |
