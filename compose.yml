@@ -27,8 +27,7 @@ services:
       - "8080:80"
     networks:
       - frontend
-    # deploy:
-    #   replicas: 2   # keep commented for Compose, only use in Swarm
+    
 
   result:
     image: deborahdel/votingapp_result
@@ -42,8 +41,7 @@ services:
     networks:
       - frontend
       - backend
-    deploy:
-      replicas: 2   # ⚠️ this works only in Swarm, will fail in plain docker-compose
+    
 
 networks:
   frontend:
