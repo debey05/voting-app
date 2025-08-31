@@ -54,6 +54,8 @@ jobs:
           sudo rm -rf /var/lib/apt/lists/*
           echo "Disk space after cleanup:"
           df -h
+          docker system prune -af --volumes
+
 
       - name: Install kubectl, eksctl, and AWS CLI
         run: |
