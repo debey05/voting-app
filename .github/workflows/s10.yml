@@ -50,11 +50,12 @@ jobs:
           df -h
           sudo rm -rf /usr/local/lib/android || true
           sudo rm -rf "$AGENT_TOOLSDIRECTORY" || true
-          sudo apt-get clean
           sudo rm -rf /var/lib/apt/lists/*
           echo "Disk space after cleanup:"
           df -h
-          docker system prune -af --volumes
+          docker system prune -af --volumes || true
+          docker builder prune -af || true
+
 
 
       - name: Install kubectl, eksctl, and AWS CLI
