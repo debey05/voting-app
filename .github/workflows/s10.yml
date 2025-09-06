@@ -105,7 +105,7 @@ jobs:
       - name: Update kubeconfig for EKS
         run: |
           export AWS_MAX_ATTEMPTS=100
-          export AWS_POLL_DELAY_SECONDS=15
+          export AWS_POLL_DELAY_SECONDS=17
           aws eks update-kubeconfig --name demo-eks --region us-east-1
           
           # Only create namespace if it doesn't already exist
