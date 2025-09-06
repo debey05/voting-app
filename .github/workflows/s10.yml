@@ -129,7 +129,7 @@ jobs:
         run: |
           echo "🧹 Cleaning up unused Docker resources and temporary files (containers stay running)..."
 
-          # Remove dangling images, networks, and volumes but keep running containers
+          # Remove dangling imagess, networks, and volumes but keep running containers
           docker system prune -af --volumes
 
           # Clean up apt cache
