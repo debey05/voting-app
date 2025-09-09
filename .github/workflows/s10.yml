@@ -77,22 +77,25 @@ jobs:
             "${{ secrets.SONAR_HOST_URL }}/api/projects/create?project=voting-app&name=voting-app" \
             || echo "Project may already exist, skipping..."
 
-      # 🔹 Install SonarScanner CLI (with version)
-      - name: Install SonarScanner CLI
+      # 🔹 Install Latest SonarScanner CLI (dynamic)
+      - name: Install Latest SonarScanner CLI
         run: |
-          SONAR_ZIP="sonar-scanner-cli-$SONAR_VERSION-linux.zip"
-          SONAR_URL="https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/$SONAR_ZIP"
+          echo "Fetching latest SonarScanner CLI version..."
+          SONAR_URL=$(curl -sSL https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/ \
+                      | grep -Eo 'sonar-scanner-cli-[0-9]+\.[0-9]+\.[0-9]+-[0-9]+-linux.zip' \
+                      | sort -V | tail -1)
+          echo "Latest SonarScanner URL: $SONAR_URL"
 
-          echo "Downloading SonarScanner CLI version $SONAR_VERSION..."
-          curl -fSL -o "$SONAR_ZIP" "$SONAR_URL"
+          curl -fSL -o sonar-scanner.zip "https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/$SONAR_URL"
 
-          if [ ! -s "$SONAR_ZIP" ]; then
+          if [ ! -s sonar-scanner.zip ]; then
             echo "❌ SonarScanner download failed!"
             exit 1
           fi
 
-          unzip -q "$SONAR_ZIP" -d $HOME
-          echo "$HOME/sonar-scanner-$SONAR_VERSION-linux/bin" >> $GITHUB_PATH
+          unzip -q sonar-scanner.zip -d $HOME
+          SONAR_DIR=$(basename "$SONAR_URL" .zip)
+          echo "$HOME/$SONAR_DIR/bin" >> $GITHUB_PATH
 
       - name: Run SonarQube Scan
         run: |
