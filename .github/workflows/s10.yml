@@ -80,8 +80,23 @@ jobs:
           # Install eksctl
           curl --silent --location "https://github.com/weaveworks/eksctl/releases/latest/download/eksctl_$(uname -s)_amd64.tar.gz" | tar xz -C /tmp
           sudo mv /tmp/eksctl /usr/local/bin
-
     
+
+      # Step 1: Create project if it does not exist
+      - name: Ensure SonarQube Project Exists
+        run: |
+          curl -s -u "${{ secrets.SONAR_ADMIN_USER }}:${{ secrets.SONAR_ADMIN_PASS }}" \
+            -X POST \
+            "${{ secrets.SONAR_HOST_URL }}/api/projects/create?name=voting-app" \
+            || echo "Project may already exist, skipping..."
+
+      # Step 2: Run SonarQube Scan
+      - name: SonarQube Scan
+        uses: SonarSource/sonarqube-scan-action@v2
+        env:
+          SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+
 
       - name: Deploy with Docker Compose
         run: |
