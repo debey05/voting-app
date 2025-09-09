@@ -90,9 +90,13 @@ jobs:
             "${{ secrets.SONAR_HOST_URL }}/api/projects/create?name=voting-app" \
             || echo "Project may already exist, skipping..."
 
-      # Step 2: Run SonarQube Scan
       - name: SonarQube Scan
         uses: SonarSource/sonarqube-scan-action@v2
+        with:
+          args: >
+           -Dsonar.projectKey=voting-app
+            -Dsonar.projectName=Voting App
+            -Dsonar.sources=vote,worker,result
         env:
           SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
