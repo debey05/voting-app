@@ -80,7 +80,6 @@ jobs:
       # 🔹 Install SonarScanner CLI (with version)
       - name: Install SonarScanner CLI
         run: |
-          SONAR_VERSION=5.1.1.1228
           SONAR_ZIP="sonar-scanner-cli-$SONAR_VERSION-linux.zip"
           SONAR_URL="https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/$SONAR_ZIP"
 
