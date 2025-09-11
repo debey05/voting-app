@@ -1,4 +1,4 @@
-name: Deploy Compose s10
+name: Deploy Compose s10 
 
 on:
   push:
@@ -77,14 +77,14 @@ jobs:
             "${{ secrets.SONAR_HOST_URL }}/api/projects/create?project=voting-app&name=voting-app" \
             || echo "Project may already exist, skipping..."
 
-      # 🔹 Install Latest SonarScanner CLI (dynamic)
+      # 🔹 Install Latest SonarScanner CLI (fixed)
       - name: Install Latest SonarScanner CLI
         run: |
           echo "Fetching latest SonarScanner CLI version..."
           SONAR_URL=$(curl -sSL https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/ \
-                      | grep -Eo 'sonar-scanner-cli-[0-9]+\.[0-9]+\.[0-9]+-[0-9]+-linux.zip' \
+                      | grep -Eo 'sonar-scanner-cli-[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+-linux.zip' \
                       | sort -V | tail -1)
-          echo "Latest SonarScanner URL: $SONAR_URL"
+          echo "Latest SonarScanner package: $SONAR_URL"
 
           curl -fSL -o sonar-scanner.zip "https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/$SONAR_URL"
 
@@ -96,6 +96,7 @@ jobs:
           unzip -q sonar-scanner.zip -d $HOME
           SONAR_DIR=$(basename "$SONAR_URL" .zip)
           echo "$HOME/$SONAR_DIR/bin" >> $GITHUB_PATH
+          echo "✅ SonarScanner installed: $SONAR_DIR"
 
       - name: Run SonarQube Scan
         run: |
