@@ -78,6 +78,7 @@ Check Logs
 kubectl logs <pod-name>
 
 
+
 Ensure there are no critical errors in the application logs.
 
 Validate Database Connection (if applicable)
