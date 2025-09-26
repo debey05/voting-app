@@ -77,47 +77,18 @@ jobs:
             "${{ secrets.SONAR_HOST_URL }}/api/projects/create?project=voting-app&name=voting-app" \
             || echo "Project may already exist, skipping..."
 
-      - name: Install SonarScanner CLI
-        run: |
-          echo "Installing SonarScanner CLI..."
-          
-          # Try multiple download approaches
-          SONAR_SCANNER_VERSION="5.0.1.3006"  # Use a known working version
-          
-          # Method 1: Try direct download from GitHub (recommended)
-          if curl -fSL -o sonar-scanner.zip "https://github.com/SonarSource/sonar-scanner-cli/releases/download/${SONAR_SCANNER_VERSION}/sonar-scanner-cli-${SONAR_SCANNER_VERSION}-linux.zip"; then
-              echo "✅ Downloaded from GitHub successfully"
-          # Method 2: Fallback to SonarSource distribution
-          elif curl -fSL -o sonar-scanner.zip "https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-${SONAR_SCANNER_VERSION}-linux.zip"; then
-              echo "✅ Downloaded from SonarSource distribution"
-          # Method 3: Final fallback
-          else
-              echo "⚠️ Both methods failed, trying alternative version..."
-              SONAR_SCANNER_VERSION="4.8.0.2856"
-              curl -fSL -o sonar-scanner.zip "https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-${SONAR_SCANNER_VERSION}-linux.zip"
-          fi
-
-          # Verify download
-          if [ ! -s sonar-scanner.zip ]; then
-              echo "❌ SonarScanner download failed!"
-              exit 1
-          fi
-
-          # Install
-          unzip -q sonar-scanner.zip -d $HOME
-          SONAR_DIR="sonar-scanner-${SONAR_SCANNER_VERSION}-linux"
-          mv "$HOME/$SONAR_DIR" "$HOME/sonar-scanner"
-          echo "$HOME/sonar-scanner/bin" >> $GITHUB_PATH
-          echo "✅ SonarScanner installed: $SONAR_SCANNER_VERSION"
-
-      - name: Run SonarQube Scan
-        run: |
-          sonar-scanner \
-            -Dsonar.projectKey=voting-app \
-            -Dsonar.projectName="Voting App" \
-            -Dsonar.sources=vote,worker,result \
-            -Dsonar.host.url=${{ secrets.SONAR_HOST_URL }} \
-            -Dsonar.login=${{ secrets.SONAR_TOKEN }}
+      - name: SonarQube Scan
+        uses: SonarSource/sonarqube-scan-action@v4
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+          SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
+        with:
+          # Optional: Add project configuration if needed
+          projectBaseDir: .
+          args: |
+            -Dsonar.projectKey=voting-app
+            -Dsonar.projectName="Voting App"
+            -Dsonar.sources=vote,worker,result
 
       - name: Deploy with Docker Compose
         run: |
