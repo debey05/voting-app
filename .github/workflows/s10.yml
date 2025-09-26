@@ -162,7 +162,7 @@ jobs:
       - name: Cleanup environment (keep running containers)
         if: always()
         run: |
-          echo "🧹 Cleaning up unused Docker resources and temporary files (containers stay running)..."
+          echo "🧹 Cleaning up unused Docker resource and temporary files (containers stay running)..."
           docker system prune -af --volumes
           sudo apt-get clean
           sudo rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
